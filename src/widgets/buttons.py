@@ -72,7 +72,7 @@ st_code = str(CodeExportParse(fn=button_st_code).parse_text)
 
 with preview:
     with st.expander("Button widget structure"):
-        st.html("html_diagrams/buttons_tree.html")
+        st.html("src/static/buttons_tree.html")
     if st.toggle("Preview Style Changes", value=True):
         st.html(HTML_Template.base_style.substitute(css=styles))
     button_st_code()
