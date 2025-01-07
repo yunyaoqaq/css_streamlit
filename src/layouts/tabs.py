@@ -1,18 +1,12 @@
 import streamlit as st
-from string import Template
 from textwrap import dedent
-from streamlit.components.v1 import html
 from streamlit_monaco import st_monaco
+from common import HTML_Template, CopyToClipboard, MainCSS, CodeExportParse
 
-base_style = Template(
-    dedent(
-        """
-        <style>
-            $css
-        </style>"""
-    )
-)
+
 st.header("Tabs")
+st.html(HTML_Template.base_style.substitute(css=MainCSS.initial_page_styles))
+
 
 st.write(
     dedent(
@@ -33,7 +27,7 @@ code, preview = st.columns(2, border=True, vertical_alignment="top")
 
 
 with code:
-    dialog_css = dedent(
+    tabs_css = dedent(
         """
 /* This is the main container for tabs*/
 .st-key-styled_tabs div[data-baseweb="tab-list"]{
@@ -75,9 +69,9 @@ with code:
     background-color:#eaeaea;
 }
            """
-    )
+    ).strip()
     styles = st_monaco(
-        value=dialog_css.strip(),
+        value=tabs_css,
         height="400px",
         language="css",
         lineNumbers=True,
@@ -85,15 +79,22 @@ with code:
     )
 
 
+def tabs_code():
+    with st.container(key="styled_tabs"):
+        tab1, tab2, tab3 = st.tabs(["Tab 1", "Tab 2", "Tab 3"])
+        with tab1:
+            st.write("This is tab 1")
+        with tab2:
+            st.write("This is tab 2")
+        with tab3:
+            st.write("This is tab 3")
+
+
+st_code = str(CodeExportParse(fn=tabs_code).parse_text)
 with preview:
     if st.toggle("Preview Style Changes", value=True):
-        st.html(base_style.substitute(css=styles))
-    with st.echo("below"):
-        with st.container(key="styled_tabs"):
-            tab1, tab2, tab3 = st.tabs(["Tab 1", "Tab 2", "Tab 3"])
-            with tab1:
-                st.write("This is tab 1")
-            with tab2:
-                st.write("This is tab 2")
-            with tab3:
-                st.write("This is tab 3")
+        st.html(HTML_Template.base_style.substitute(css=styles))
+    tabs_code()
+    st.code(st_code)
+
+CopyToClipboard(css_text=styles, streamlit_code=st_code)

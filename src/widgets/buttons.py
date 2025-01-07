@@ -1,21 +1,18 @@
 import streamlit as st
-from string import Template
 from textwrap import dedent
-from streamlit.components.v1 import html
 from streamlit_monaco import st_monaco
+from common import HTML_Template, CopyToClipboard, MainCSS, CodeExportParse
 
-base_style = Template(
-    dedent(
-        """
-        <style>
-            $css
-        </style>"""
-    )
-)
 st.header("Buttons")
+st.html(HTML_Template.base_style.substitute(css=MainCSS.initial_page_styles))
+
 
 st.write(
-    "You can isolate and style buttons by adding styles to the generated CSS class in the DOM named after the `key` argument in you widget. These styles apply with some minor differences to `st.button`, `st.form_submit_button` and `st.popover`. The basic structure of a button will also depend on the precense of an icon argument"
+    """
+You can isolate and style buttons by adding styles to the generated CSS class in the DOM named after the `key` argument in you widget. 
+These styles apply with some minor differences to `st.button`, `st.form_submit_button` and `st.popover`. 
+The basic structure of a button will also depend on the precense of an `icon` argument
+"""
 )
 
 st.subheader("Try it!")
@@ -52,7 +49,8 @@ with code:
          color:white;
     }
            """
-    )
+    ).strip()
+
     styles = st_monaco(
         value=button_css,
         height="400px",
@@ -61,15 +59,23 @@ with code:
         minimap=False,
     )
 
-with preview:
 
+def button_st_code():
+    st.button(
+        "Sample Button",
+        key="styled_button",
+        icon=":material/home:",
+    )
+
+
+st_code = str(CodeExportParse(fn=button_st_code).parse_text)
+
+with preview:
     with st.expander("Button widget structure"):
         st.html("html_diagrams/buttons_tree.html")
     if st.toggle("Preview Style Changes", value=True):
-        st.html(base_style.substitute(css=styles))
-    with st.echo("below"):
-        st.button(
-            "Sample Button",
-            key="styled_button",
-            icon=":material/home:",
-        )
+        st.html(HTML_Template.base_style.substitute(css=styles))
+    button_st_code()
+    st.code(st_code)
+
+CopyToClipboard(css_text=styles, streamlit_code=st_code)

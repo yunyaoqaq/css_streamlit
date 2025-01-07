@@ -1,9 +1,6 @@
 import streamlit as st
 
 st.set_page_config(layout="wide")
-
-st.logo("https://streamlit.io/images/brand/streamlit-mark-color.png", size="large")
-
 nav_menu = {
     "Main": [
         st.Page(
@@ -22,6 +19,11 @@ nav_menu = {
             title="Headers",
             page="widgets/headers.py",
             icon=":material/title:",
+        ),
+        st.Page(
+            title="Sliders",
+            page="widgets/sliders.py",
+            icon=":material/sliders:",
         ),
     ],
     "Layouts": [

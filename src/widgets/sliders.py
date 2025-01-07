@@ -3,12 +3,12 @@ from textwrap import dedent
 from streamlit_monaco import st_monaco
 from common import HTML_Template, CopyToClipboard, MainCSS, CodeExportParse
 
-st.header("Containers")
+st.header("Sliders")
 st.html(HTML_Template.base_style.substitute(css=MainCSS.initial_page_styles))
 
 
 st.write(
-    "To style a specific container, assign a value to the `key` argument to create a CSS class.  "
+    "Sliders can be customized by changing the thumb and track color and changing the thumb shape using clip-paths and svg."
 )
 
 st.subheader("Try it!")
@@ -18,17 +18,23 @@ code, preview = st.columns(2, border=True, vertical_alignment="top")
 with code:
     container_css = dedent(
         """
-.st-key-styled_container{
-    background-color:grey;
-    border-radius:1rem;
-    padding:1rem;
-    min-height:100px;
-    box-shadow: 3px 5px 15px 0px rgba(128, 128, 128, 0.245);
-    }
-
- .st-key-styled_container div[data-testid="stText"] div{
+.st-key-slider{
+        padding-left:10px;
+        padding-right:10px;
+        }
+.st-key-slider div[data-testid="stSliderThumbValue"]{
+    transform:translateY(27px);
     color:white;
-    
+    font-size:small;
+    position:relative;
+}
+.st-key-slider div[role="slider"]{
+    height:30px;
+    width:45px;
+    border-radius:0px;
+    background-color:red;
+    top:10px;
+    clip-path: polygon(1% 16%, 18% 95%, 83% 95%, 100% 14%, 68% 45%, 51% 0, 33% 47%);
 }
            """
     ).strip()
@@ -41,20 +47,21 @@ with code:
     )
 
 
-def containers_code():
-    with st.container(key="styled_container"):
-        st.text("This is a styled container")
+def sliders_code():
+    st.slider(
+        "Simple Slider",
+        value=1,
+        max_value=25,
+        min_value=1,
+        key="slider",
+    )
 
-    with st.container():
-        st.text("This is an unstyled container")
 
-
-st_code = str(CodeExportParse(fn=containers_code).parse_text)
-st.html(HTML_Template.base_style.substitute(css=styles))
+st_code = str(CodeExportParse(fn=sliders_code).parse_text)
 with preview:
     if st.toggle("Preview Style Changes", value=True):
         st.html(HTML_Template.base_style.substitute(css=styles))
-    containers_code()
+    sliders_code()
     st.code(st_code)
 
 CopyToClipboard(css_text=styles, streamlit_code=st_code)

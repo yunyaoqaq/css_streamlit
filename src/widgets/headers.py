@@ -1,9 +1,11 @@
 import streamlit as st
 from textwrap import dedent
 from streamlit_monaco import st_monaco
-from string import Template
+from common import HTML_Template, CopyToClipboard, MainCSS, CodeExportParse
+
 
 st.header("Headers", anchor=False, divider=True)
+st.html(HTML_Template.base_style.substitute(css=MainCSS.initial_page_styles))
 
 st.write(
     dedent(
@@ -20,14 +22,6 @@ st.subheader("Try it!")
 code, preview = st.columns(2, border=True, vertical_alignment="top")
 
 
-base_style = Template(
-    dedent(
-        """
-        <style>
-            $css
-        </style>"""
-    )
-)
 with code:
     headers_css = dedent(
         """
@@ -60,12 +54,19 @@ with code:
     )
 
 
+def headers_code():
+    with st.container(key="header_style_one"):
+        st.title("Streamlit", anchor=False)
+        st.header("Styles", anchor=False)
+        st.subheader("Sample", anchor=False)
+
+
+st_code = str(CodeExportParse(fn=headers_code).parse_text)
+
 with preview:
     if st.toggle("Preview Style Changes", value=True):
-        st.html(base_style.substitute(css=styles))
-    with st.echo("below"):
+        st.html(HTML_Template.base_style.substitute(css=styles))
+    headers_code()
+    st.code(st_code)
 
-        with st.container(key="header_style_one"):
-            st.title("Streamlit", anchor=False)
-            st.header("Styles", anchor=False)
-            st.subheader("Sample", anchor=False)
+CopyToClipboard(css_text=styles, streamlit_code=st_code)

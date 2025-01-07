@@ -1,18 +1,11 @@
 import streamlit as st
-from string import Template
 from textwrap import dedent
-from streamlit.components.v1 import html
 from streamlit_monaco import st_monaco
+from common import HTML_Template, CopyToClipboard, MainCSS, CodeExportParse
 
-base_style = Template(
-    dedent(
-        """
-        <style>
-            $css
-        </style>"""
-    )
-)
 st.header("Expanders")
+st.html(HTML_Template.base_style.substitute(css=MainCSS.initial_page_styles))
+
 
 st.write(
     dedent(
@@ -31,7 +24,7 @@ code, preview = st.columns(2, border=True, vertical_alignment="top")
 
 
 with code:
-    button_css = dedent(
+    expander_css = dedent(
         """
 
         
@@ -58,9 +51,9 @@ with code:
 
 
            """
-    )
+    ).strip()
     styles = st_monaco(
-        value=button_css.strip(),
+        value=expander_css,
         height="400px",
         language="css",
         lineNumbers=True,
@@ -68,10 +61,17 @@ with code:
     )
 
 
+def expanders_code():
+    with st.container(key="styled_expander"):
+        with st.expander("Styled Expander"):
+            st.write("This is a styled container")
+
+
+st_code = str(CodeExportParse(fn=expanders_code).parse_text)
 with preview:
     if st.toggle("Preview Style Changes", value=True):
-        st.html(base_style.substitute(css=styles))
-    with st.echo("below"):
-        with st.container(key="styled_expander"):
-            with st.expander("Styled Expander"):
-                st.write("This is a styled container")
+        st.html(HTML_Template.base_style.substitute(css=styles))
+    expanders_code()
+    st.code(st_code)
+
+CopyToClipboard(css_text=styles, streamlit_code=st_code)
