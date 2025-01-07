@@ -33,8 +33,8 @@ class CopyToClipboard:
     def __init__(self, css_text: str, streamlit_code: str):
         self.css_text = css_text
         self.streamlit_code = streamlit_code
-        if st.button("Copy", icon=":material/content_copy:"):
-            self.copy_to_clipboard()
+        with st.popover("Copy", icon=":material/content_copy:"):
+            st.code(self.copy_to_clipboard())
 
     def copy_to_clipboard(self):
         copied_text = "\n\n".join(
@@ -45,8 +45,7 @@ class CopyToClipboard:
                 self.streamlit_code,
             ]
         )
-        pyperclip.copy(copied_text)
-        st.toast("Copied to Clipboard")
+        return copied_text
 
 
 class MainCSS:
