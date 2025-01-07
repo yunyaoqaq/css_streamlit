@@ -57,7 +57,7 @@ class MainCSS:
         width:50px;
         box-shadow: 3px 5px 10px 0px rgba(128, 128, 128, 0.245);
         position:fixed;
-        bottom:4rem;
+        bottom:5rem;
         right:3rem;
     }
 
@@ -67,7 +67,7 @@ class MainCSS:
         width:50px;
         box-shadow: 3px 5px 10px 0px rgba(128, 128, 128, 0.245);
         position:fixed;
-        bottom:8rem;
+        bottom:9rem;
         right:3rem;
     }
 div[data-testid="stAppViewContainer"]{
