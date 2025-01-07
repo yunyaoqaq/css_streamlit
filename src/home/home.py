@@ -55,7 +55,9 @@ def about():
     with st.container(key="about_me_img"):
         about_me_columns = st.columns((1, 1.5))
         with about_me_columns[0]:
-            st.image("static/me.jpg")
+            st.image(
+                "https://media.licdn.com/dms/image/v2/D4E03AQFTAYqOML5pGQ/profile-displayphoto-shrink_800_800/B4EZPfayfSGwAo-/0/1734620163672?e=1741824000&v=beta&t=Ktd4ISwuH64BeUXmP3lNCZwExp80dHu9LO72wykQyCM"
+            )
         with about_me_columns[1]:
             st.title("Carlos D. Serrano")
             st.divider()
