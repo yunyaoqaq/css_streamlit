@@ -75,7 +75,7 @@ div[data-testid="stAppViewContainer"]{
     margin-right:2rem;
     margin-top:2rem;
     margin-left:2rem;
-    margin-bottom:2rem;
+    margin-bottom:4rem;
     border-radius:2rem;
 }
 div[data-testid="stSidebarCollapsedControl"]{

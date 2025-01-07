@@ -50,7 +50,7 @@ def containers_code():
 
 
 st_code = str(CodeExportParse(fn=containers_code).parse_text)
-st.html(HTML_Template.base_style.substitute(css=styles))
+
 with preview:
     if st.toggle("Preview Style Changes", value=True):
         st.html(HTML_Template.base_style.substitute(css=styles))
