@@ -45,6 +45,10 @@ example_columns[1].code(
     div:has(.st-key-step_one,.st-key-step_two, .st-key-step_three) button{
     /* button styles here */
     }
+    /* OR */ 
+    div[class*="st-key-step_"] button{
+     /* button styles here */
+    }
     """,
     language="css",
 )
