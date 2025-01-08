@@ -1,6 +1,8 @@
 import streamlit as st
+from common import HTML_Template, MainCSS
 
 st.set_page_config(layout="wide")
+st.html(HTML_Template.base_style.substitute(css=MainCSS.initial_page_styles))
 nav_menu = {
     "Main": [
         st.Page(
